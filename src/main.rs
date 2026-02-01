@@ -244,6 +244,13 @@ fn main() {
         Some(score) => println!("Bob's score: {}", score),
         None => println!("Bob's score not found."),
     }
+
+    // ^ This is a good way of checking is a value is None or Some(value).
+    // You can also do this:
+    if scores.get("Bob").is_none() {
+        println!("Bob's score not found.");
+    }
+
     // You can use indexing syntax to access values by key:
     println!("Alice's score (via indexing): {}", scores["Alice"]);
     // If you insert a new value using a key that already exists, the old value is replaced with the new one:
