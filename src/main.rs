@@ -141,21 +141,52 @@ fn main() {
     let mut fruits: [&str; 3] = ["Apple", "Banana", "Cherry"];
     println!("The first fruit is: {}", fruits[0]);
     fruits[1] = "Blueberry"; // Change "Banana" to "Blueberry"
-    println!("The second fruit is now: {}", fruits[1]); 
+    println!("The second fruit is now: {}", fruits[1]);
+
+    // When printing the whole array, you must use {:?} inside println!:
+    println!("The fruits array is: {:?}", fruits);
     
     // Vectors
     // Vectors are similar to arrays, but they can grow and shrink in size.
     // Vectors must also contain values of the same type.
     let mut veggies: Vec<&str> = vec!["Carrot", "Potato", "Cucumber"];
+
+    // Vec<T> is the syntax for a vector that holds values of type T.
+    // In this case, Vec<&str> is a vector of string slices.
+
     println!("The first vegetable is: {}", veggies[0]);
     veggies.push("Tomato"); // Add a new element
     println!("The last vegetable is now: {}", veggies[veggies.len() - 1]);
     // You can also remove the last element using pop():
     veggies.pop();
     println!("After popping, the last vegetable is: {}", veggies[veggies.len() - 1]);
+    // pop() returns an Option type, which is like Optional in Python.
+    // If the vector is empty, pop() returns None. Otherwise, it returns Some(value).
+    // Use insert() to add an item at a specified index:
+    veggies.insert(0, "Lettuce"); // Add "Lettuce" at the beginning
+    println!("After inserting, the first vegetable is: {}", veggies[0]);
     // You can remove an entry at a specific index using remove():
     veggies.remove(0); // Remove the first element
     println!("After removing the first vegetable, the new first vegetable is: {}", veggies[0]);
+    // You can change the size of a vector using the resize() method:
+    veggies.resize(5, "Lettuce"); // Resize to 5 elements, filling new slots with "Lettuce"
+    println!("After resizing, the vector has {} elements.", veggies.len());
+    // You can change the value at a specific index:
+    veggies[1] = "Spinach"; // Change the second element
+    println!("The second vegetable is now: {}", veggies[1]);
+    // You can also clear all elements from a vector using clear():
+    veggies.clear();
+    println!("After clearing, the vector has {} elements.", veggies.len());
+
+    // Just like arrays, you can use a for loop to go through all the values in a vector:
+    for veggie in veggies.iter() {
+        println!("{}", veggie);
+    }
+    // Here's another way of doing the same thing:
+    for veggie in &veggies {
+        println!("I like {}.", veggie);
+    }
+    // Note: Use &fruits to borrow the vector instead of moving it.
 
     // Vectors and arrays both allow indexing to access elements.
     let mut numbers: Vec<i32> = vec![1, 2, 3, 4, 5];
@@ -189,6 +220,7 @@ fn main() {
     println!("Alice's score: {}", scores.get("Alice").unwrap());
     // unwrap means "give me the value inside the Option". If the key
     // doesn't exist, it will cause a panic. In real code, you should handle this more gracefully.
+    // There's an explanation of error handling later in this file.
     scores.insert("Alice", 95); // Update Alice's score
     println!("Alice's updated score: {}", scores.get("Alice").unwrap());
     scores.remove("Bob"); // Remove Bob's score
@@ -337,6 +369,12 @@ fn main() {
     // unlike many other programming languages. You don't need to declare
     // or increment it manually.
 
+    // You can also loop through arrays and vectors using for:
+    let animals = ["Dog", "Cat", "Rabbit"];
+    for animal in animals.iter() {
+        println!("{}", animal);
+    }
+
     // continue and break also work in for loops.
 
     // Rust also has an enumerate function:
@@ -417,7 +455,7 @@ fn main() {
 
     // Error handling in Rust is done using the Result and Option types.
     // Result is used for operations that can succeed or fail.
-    // Option is used for values that can be present or absent.
+    // Option is used for values that can be present or absent. It's like Optional in Python.
     // Both types are enums that help handle errors and missing values safely.
     // They encourage you to think about error handling and avoid panics.
 
