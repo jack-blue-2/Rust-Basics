@@ -25,6 +25,9 @@ fn add1(a: i32, b: i32) -> i32 {
   a + b
 }
 
+// If you add a semicolon at the end of the last line, it becomes a statement
+// that returns (), which is the unit type (similar to None in Python).
+
 // The top file is always called main.rs, and the top function is always called main.
 // The main function is always at the bottom of the file.
 
@@ -417,15 +420,18 @@ fn main() {
     // Option is used for values that can be present or absent.
     // Both types are enums that help handle errors and missing values safely.
     // They encourage you to think about error handling and avoid panics.
-    
+
     // Here's an example of using Result:
     fn divide(a: f64, b: f64) -> Result<f64, String> {
         if b == 0.0 {
             Err(String::from("Cannot divide by zero")) // This returns an error
         } else {
-            Ok(a / b); // Ok is part of the standard library
+            Ok(a / b) // Ok is part of the standard library
         }
     }
+    // The line with OK doesn't end with a semicolon because it's returning a value.
+    // If you add a semicolon, it becomes a statement that returns (),
+    // which is the equivalent of None in Python.
 
     match divide(10.0, 2.0) {
         Ok(result) => println!("Result: {}", result),
@@ -447,3 +453,5 @@ fn main() {
         Some(value) => println!("Value: {}", value),
         None => println!("No value found at that index"),
     }
+
+}
