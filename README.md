@@ -1,3 +1,5 @@
+This project was started on 29th January 2026.
+
 To run the project, run this command in the root:
 
 cargo run
