@@ -10,6 +10,10 @@ mod utils {
 // call random_integer() directly.
 use utils::random_crate::random_integer;
 
+// To use HashMap, you must import it from the standard library.
+use std::collections::HashMap;
+
+
 fn add(a: i32, b: i32) -> i32 {
   return a + b;
 }
@@ -129,12 +133,16 @@ fn main() {
     println!("Modified greeting: {}", modified_greeting);
 
     // Arrays
+    // The size of an array is fixed. You cannot add or remove elements.
+    // All the values in an array must be of the same type.
     let mut fruits: [&str; 3] = ["Apple", "Banana", "Cherry"];
     println!("The first fruit is: {}", fruits[0]);
     fruits[1] = "Blueberry"; // Change "Banana" to "Blueberry"
     println!("The second fruit is now: {}", fruits[1]); 
-    // The size of an array is fixed. You cannot add or remove elements.
+    
     // Vectors
+    // Vectors are similar to arrays, but they can grow and shrink in size.
+    // Vectors must also contain values of the same type.
     let mut veggies: Vec<&str> = vec!["Carrot", "Potato", "Cucumber"];
     println!("The first vegetable is: {}", veggies[0]);
     veggies.push("Tomato"); // Add a new element
@@ -142,12 +150,51 @@ fn main() {
     // You can also remove the last element using pop():
     veggies.pop();
     println!("After popping, the last vegetable is: {}", veggies[veggies.len() - 1]);
+    // You can remove an entry at a specific index using remove():
+    veggies.remove(0); // Remove the first element
+    println!("After removing the first vegetable, the new first vegetable is: {}", veggies[0]);
 
     // Vectors and arrays both allow indexing to access elements.
     let mut numbers: Vec<i32> = vec![1, 2, 3, 4, 5];
     println!("The first number is: {}", numbers[0]);
     numbers[2] = 10; // Change the third element from 3 to 10
     println!("The third number is now: {}", numbers[2]);
+
+    // Tuples
+    // Tuples can hold values of different types.
+    // The size of a tuple is fixed. You cannot add or remove elements.
+    let person: (&str, i32, bool) = ("Alice", 30, true);
+    println!("Name: {}", person.0);
+    println!("Age: {}", person.1);
+    println!("Is student: {}", person.2);
+    // You can also destructure a tuple into separate variables:
+    let (name, age, is_student) = person;
+    println!("Destructured - Name: {}, Age: {}, Is student: {}", name, age, is_student);
+    // You can change the values in a mutable tuple:
+    let mut mutable_person: (&str, i32, bool) = ("Bob", 25, false);
+    mutable_person.1 = 26; // Change age from 25 to 26
+    println!("Updated age: {}", mutable_person.1);
+
+    // HashMaps
+    // HashMaps store key-value pairs.
+    // The keys and values can be of different types.
+    // HashMaps can grow and shrink in size.
+    // To use HashMap, you must import it from the standard library.
+    let mut scores: HashMap<&str, i32> = HashMap::new();
+    scores.insert("Alice", 90);
+    scores.insert("Bob", 85);
+    println!("Alice's score: {}", scores.get("Alice").unwrap());
+    // unwrap means "give me the value inside the Option". If the key
+    // doesn't exist, it will cause a panic. In real code, you should handle this more gracefully.
+    scores.insert("Alice", 95); // Update Alice's score
+    println!("Alice's updated score: {}", scores.get("Alice").unwrap());
+    scores.remove("Bob"); // Remove Bob's score
+    match scores.get("Bob") {
+        Some(score) => println!("Bob's score: {}", score),
+        None => println!("Bob's score not found."),
+    }
+    // You can use indexing syntax to access values by key:
+    println!("Alice's score (via indexing): {}", scores["Alice"]);
 
     // Operators
     let sum = 5 + 10;           // Addition
@@ -365,6 +412,38 @@ fn main() {
     } // mutable borrow ends here
     println!("a: {}", a); // now you can use 'a' again
 
+    // Error handling in Rust is done using the Result and Option types.
+    // Result is used for operations that can succeed or fail.
+    // Option is used for values that can be present or absent.
+    // Both types are enums that help handle errors and missing values safely.
+    // They encourage you to think about error handling and avoid panics.
+    
+    // Here's an example of using Result:
+    fn divide(a: f64, b: f64) -> Result<f64, String> {
+        if b == 0.0 {
+            Err(String::from("Cannot divide by zero")) // This returns an error
+        } else {
+            Ok(a / b); // Ok is part of the standard library
+        }
+    }
+
+    match divide(10.0, 2.0) {
+        Ok(result) => println!("Result: {}", result),
+        Err(e) => println!("Error: {}", e),
+    }
 
 
-}
+    // Here's an example of using Option:
+    fn get_nth_element(vec: &Vec<i32>, n: usize) -> Option<i32> {
+        if n < vec.len() {
+            Some(vec[n])
+        } else {
+            None
+        }
+    }
+
+    let numbers = vec![10, 20, 30];
+    match get_nth_element(&numbers, 1) {
+        Some(value) => println!("Value: {}", value),
+        None => println!("No value found at that index"),
+    }
