@@ -187,6 +187,9 @@ fn main() {
         println!("I like {}.", veggie);
     }
     // Note: Use &fruits to borrow the vector instead of moving it.
+    // In Rust, borrowing means using a reference to a value instead of taking ownership of it.
+    // When you loop through a vector without &, the values are moved out, and you can no longer
+    // use the vector. But when you borrow the vector using &, you can still use it later in your program.
 
     // Vectors and arrays both allow indexing to access elements.
     let mut numbers: Vec<i32> = vec![1, 2, 3, 4, 5];
@@ -197,17 +200,25 @@ fn main() {
     // Tuples
     // Tuples can hold values of different types.
     // The size of a tuple is fixed. You cannot add or remove elements.
+    // You cannot replace an element in a tuple.
     let person: (&str, i32, bool) = ("Alice", 30, true);
     println!("Name: {}", person.0);
     println!("Age: {}", person.1);
     println!("Is student: {}", person.2);
-    // You can also destructure a tuple into separate variables:
+    // You can also destructure/unpack a tuple into separate variables:
     let (name, age, is_student) = person;
     println!("Destructured - Name: {}, Age: {}, Is student: {}", name, age, is_student);
     // You can change the values in a mutable tuple:
     let mut mutable_person: (&str, i32, bool) = ("Bob", 25, false);
     mutable_person.1 = 26; // Change age from 25 to 26
     println!("Updated age: {}", mutable_person.1);
+
+    // Tuples are often used to return multiple values from a function:
+    fn get_person() -> (&'static str, i32, bool) {
+        ("Charlie", 35, true)
+    }
+    let (name, age, is_student) = get_person();
+    println!("Returned - Name: {}, Age: {}, Is student: {}", name, age, is_student);
 
     // HashMaps
     // HashMaps store key-value pairs.
@@ -221,6 +232,11 @@ fn main() {
     // unwrap means "give me the value inside the Option". If the key
     // doesn't exist, it will cause a panic. In real code, you should handle this more gracefully.
     // There's an explanation of error handling later in this file.
+    // You can also use the get method without unwrap:
+    // println!("Alice's score: {}", scores.get("Alice"));
+    // This would error because it returns an Option type.
+    // In order to print it, you need to use {:?}
+    println!("Alice's score: {:?}", scores.get("Alice"));
     scores.insert("Alice", 95); // Update Alice's score
     println!("Alice's updated score: {}", scores.get("Alice").unwrap());
     scores.remove("Bob"); // Remove Bob's score
@@ -230,6 +246,24 @@ fn main() {
     }
     // You can use indexing syntax to access values by key:
     println!("Alice's score (via indexing): {}", scores["Alice"]);
+    // If you insert a new value using a key that already exists, the old value is replaced with the new one:
+    scores.insert("Alice", 100);
+    println!("Alice's score after reinserting: {}", scores["Alice"]);
+    // This is how you print out the whole HashMap, with {:?}:
+    println!("Scores HashMap: {:?}", scores);
+
+    // You can also use a for loop to loop through all the key/value pairs in a hashmap:
+    let mut capitalCities = HashMap::new();
+
+    // Add keys and values (Country, City)
+    capitalCities.insert("England", "London");
+    capitalCities.insert("Germany", "Berlin");
+    capitalCities.insert("Norway", "Oslo");
+
+    // Loop through the HashMap
+    for (country, city) in &capitalCities {
+    println!("The capital of {} is {}.", country, city);
+    }
 
     // Operators
     let sum = 5 + 10;           // Addition
@@ -475,7 +509,6 @@ fn main() {
         Ok(result) => println!("Result: {}", result),
         Err(e) => println!("Error: {}", e),
     }
-
 
     // Here's an example of using Option:
     fn get_nth_element(vec: &Vec<i32>, n: usize) -> Option<i32> {
