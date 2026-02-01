@@ -265,6 +265,55 @@ fn main() {
     println!("The capital of {} is {}.", country, city);
     }
 
+    // Structs
+    // Define a structure:
+    struct Person {
+        name: String,
+        age: u32,
+    }
+
+    // create an object (an instance that has the same structure)
+    // Use mut if you want to be able to change the values later.
+    let mut user = Person {
+        name: String::from("John"),
+        age: 35,
+    };
+
+    user.age = 36; // Change value of age - we can do this because we used mut earlier
+    println!("Name: {}", user.name);
+    println!("Updated age: {}", user.age);
+
+    // Enums
+    enum Direction {
+        Up,
+        Down,
+        Left,
+        Right,
+    }
+
+    let my_direction = Direction::Up;
+
+    match my_direction {
+        Direction::Up => println!("We are going up!"),
+        Direction::Down => println!("We are going down!"),
+        Direction::Left => println!("We are going left!"),
+        Direction::Right => println!("We are going right!"),
+    }
+
+    // Enum variants can also hold data. This is useful when each variant needs to store extra information:
+    enum LoginStatus {
+        Success(String),
+        Error(String),
+    }
+
+    let result1 = LoginStatus::Success(String::from("Welcome, John!"));
+    let result2 = LoginStatus::Error(String::from("Incorrect password"));
+
+    match result1 {
+        LoginStatus::Success(message) => println!("Success: {}", message),
+        LoginStatus::Error(message) => println!("Error: {}", message),
+    }
+
     // Operators
     let sum = 5 + 10;           // Addition
     let difference = 95.5 - 4.3; // Subtraction
