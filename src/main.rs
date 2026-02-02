@@ -66,6 +66,12 @@ fn main() {
     let my_explicit_bool: bool = true; // boolean
     let my_explicit_text: &str = "Hello"; // string
 
+    // T is a generic type parameter.
+    // It can be any type, and Rust will figure it out based on how you use it.
+    fn get_first_element<T>(arr: &[T]) -> &T {
+        &arr[0]
+    }
+
     // Constant variables are used to store values that never change.
     // They must be defined with a type, and are usually written in uppercase letters:
     const MY_CONSTANT: i32 = 100;
@@ -77,6 +83,10 @@ fn main() {
     let mut mutable_greeting: String = String::from("Hello");
     let another_greeting: String = "Hello".to_string();
     let mut yet_another_greeting: String = String::new(); // empty String
+
+    // Create a string of "a"s by repeating "a" 5 times:
+    let repeated_a: String = "a".repeat(5);
+    println!("Repeated a: {}", repeated_a);
     
     // push_str is a method that adds text to the end of a String.
     mutable_greeting.push_str(", World!");
@@ -196,6 +206,11 @@ fn main() {
     println!("The first number is: {}", numbers[0]);
     numbers[2] = 10; // Change the third element from 3 to 10
     println!("The third number is now: {}", numbers[2]);
+
+    // Here's how you make a vector of x lots of zero:
+    let x: usize = 10;
+    let mut v = vec![0; x];
+    v[2] += 1; // Increment the third element
 
     // Tuples
     // Tuples can hold values of different types.
@@ -364,6 +379,25 @@ fn main() {
     // Again, they must return the same type!
     let greeting_one_liner = if time < 18 { "Good day." } else { "Good evening." };
     
+    // --- if let ---
+    // if let is a convenient way to match a single pattern and ignore the rest.
+    // It's often used with Option and Result types.
+    // For example, if you only care about Some(value) and want to ignore None:
+    let maybe_number = Some(42);
+
+    if let Some(n) = maybe_number {
+        println!("The number is: {}", n);
+    } else {
+        println!("No number found.");
+    }
+
+    // You can also use if let with enums:
+    let login = LoginStatus::Success(String::from("Logged in!"));
+    if let LoginStatus::Success(msg) = login {
+        println!("Login message: {}", msg);
+    }
+    // If the pattern doesn't match, nothing happens (unless you add an else).
+
     // match is like a switch statement in other languages:
       let day = 4;
 
@@ -466,6 +500,11 @@ fn main() {
     }
 
     // continue and break also work in for loops.
+
+    // You can step backwards through a range using rev():
+    for i in (1..=5).rev() {
+        println!("{}", i);
+    }
 
     // Rust also has an enumerate function:
     let fruits = ["Apple", "Banana", "Cherry"];
