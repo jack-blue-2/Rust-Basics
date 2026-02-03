@@ -493,10 +493,16 @@ fn main() {
     // unlike many other programming languages. You don't need to declare
     // or increment it manually.
 
-    // You can also loop through arrays and vectors using for:
+    // You can also loop through arrays and vectors using iter():
     let animals = ["Dog", "Cat", "Rabbit"];
     for animal in animals.iter() {
         println!("{}", animal);
+    }
+
+    // You can loop through a string using chars():
+    let my_string = "Hello";
+    for c in my_string.chars() {
+        println!("{}", c);
     }
 
     // continue and break also work in for loops.
